@@ -7,11 +7,12 @@ import random
 
 
 
-
 def plot_2d(x, y, z, path, w = 10, nsamp = 100, name = 'conductivities', circle = False): 
     batch_size = z.shape[0]
 
+    #random.seed(0)
     randomlist = random.sample(range(batch_size), nsamp)
+    print(randomlist)
     batch_size = nsamp
 
     h = int(batch_size/w)
@@ -24,14 +25,15 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, name = 'conductivities', circle 
         if circle:
             plot_circle()
         colorbar = 'jet'
-        plt.scatter(x, y, c = z[i], cmap=colorbar, marker='.')
+        plt.scatter(x, y, c = z[samp], cmap=colorbar, marker='.') # !!mistake you are plotting first 400 since z[i]. Use z[samp] for random samples
         plt.axis('square')
         plt.axis('off')
+        plt.tile(str(samp))
         plt.colorbar()
 
     fig.tight_layout()
     print('Saving figure\n')
-    plt.savefig(path+'/%s_samples_%s.png'%(nsamp, name))
+    plt.savefig(path+'/%s_random_samples_%s.png'%(nsamp, name))
 
 def plot_circle(R = [1, 0.90]):
     th = np.arange(0, 2 * np.pi, np.pi / 100)
