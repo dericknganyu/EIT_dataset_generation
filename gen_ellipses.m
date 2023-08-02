@@ -1,4 +1,4 @@
-function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mesh, max_numInc)
+function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mesh, max_numInc, texture)
     nodes = mesh.Nodes;
     
     x1 = nodes(1,:);
@@ -14,15 +14,42 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mes
     
     [h, k, a, b, alpha] = sampleInclusions(numInc);
     
-    for i = 1:numInc             
-        cond_opt  = [rand*0.6+0.2, rand*0.8 + 1.2]; %sigma in [0.2,0.8] or [1.2, 2]
-        cond_idx  = randi([1, 2], 1);
-        cond(i) =  cond_opt(cond_idx);
-        X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+    if texture
+        for i = 1:numInc             
+            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+            X1 = x1(X<=1);  X2 = x2(X<=1);
+            kx = 20;  ky = 30; %to be decided upon
+            centre = [h(i), k(i)];
+            res = 0.5*(1 + add_texture(X2, X1, kx, ky, alpha(i), centre)); %scaling so that [0, 1]
+            
+            cond_opt  = [0, 1]; 
+            cond_idx  = randi([1, 2], 1); %chooseing between 0 and 1
+            cond(i) =  cond_opt(cond_idx);
+            
+            res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
+                                                         %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
+            
+            condOut(X<=1)=res;% cond(i);
+        end
+    else
+        for i = 1:numInc             
+            cond_opt  = [rand*0.6+0.2, rand*0.8 + 1.2];  %sigma in [0.2,0.8] or [1.2, 2]
+            cond_idx  = randi([1, 2], 1);
+            cond(i) =  cond_opt(cond_idx);
+            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
 
-        condOut(X<=1)=cond(i);
-    end
+            condOut(X<=1)=cond(i);
+        end
+    end       
+end
+%%
+function [z] = add_texture(x, y, kx, ky, angle, centre)
 
+    x_rot = centre(1) + x*cos(angle) - y*sin(angle);
+    y_rot = centre(2) + x*sin(angle) + y*cos(angle);
+
+    z = 0.5*(2 + sin(kx*x_rot) + sin(ky*y_rot)); %[-1, 1]
+    
 end
 %%
 function [X] = cart_ellipse(x, y, h, k, a, b, alpha)
