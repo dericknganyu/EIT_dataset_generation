@@ -33,34 +33,28 @@ end
 %% 
 function [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance)
     narginchk(1, 2);
-    if nargin<2,  tolerance = 50; test_step = 50; end
+    if nargin<2,  tolerance = 50; test_step = 200; end
     
     h = zeros(1, numInc); k = zeros(1, numInc);
     a = zeros(1, numInc); b = zeros(1, numInc);
-    alpha = zeros(1, numInc); %k = zeros(numInc);
-    
+    alpha = zeros(1, numInc); 
   
     l = 1;  
     while l == 1
-        
         [h(l), k(l), a(l), b(l), alpha(l)] = sampleEllipse(test_step);
 
         tol = 0;    
-        for i = 2:numInc
-            %i
-            %indiv_condition = zeros(1, i-1)  
+        for i = 2:numInc 
             condition = true;         
             tol = 0;
             while condition && tol<tolerance
                 condition = false;
                 [h(i), k(i), a(i), b(i), alpha(i)] = sampleEllipse(test_step);
                 for j = 1:i-1  
-                    %fprintf('Norm is %d and sum is %d].\n',norm([h(j), k(j)] - [h(i), k(i)]),a(j) + a(i));
-                    if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i)%; 
-                        %fprintf('Overlap found between [%d  %d].\n',i,j);
+                    if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i)
                         condition = true; % means generated inclusion 'overlaps' with another
-                        break             %exit for loop and generate new sample
-                    end%if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i); condition = true; end
+                        break             % exit for loop and generate new sample
+                    end %if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i); condition = true; end
                     
                 end
                 tol = tol + 1; %when tol finally equals tolerance, the while loop ends
@@ -68,16 +62,45 @@ function [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance)
                                %ellipses more than we can tolerate and they keep overlapping, so we should restart
                                %sampling of the 1st sample
             end
- 
         end
         l = l + 1;
-        if tol == tolerance 
-            l = 1; %fprintf('\n Restarting.....\n'); 
-        end
-    end  
-
-        
+        if tol == tolerance; l = 1; end %fprintf('\n Restarting.....\n'); 
+    end         
 end
+
+function [h, k, a, b, alpha] = sampleEllipse(test_step, tolerance)
+    %# (h, k) centre of ellipse
+    %# (a, b) major and minor axis of ellipse
+    %# alpha angle of rotation
+    %# test_step: just a variable needed to identify the points on an ellpise via their polar coordinate so we can check if it is within the unit radius
+    %# tolerance: how many times we are allowed to sample b wrongly before restarting the sampling process of h, k, alpha, a
+
+    narginchk(1, 2);
+    if nargin<2,  tolerance=50; end
+    
+    h = rand*(2) - 1; %[-1, 1]
+    k = rand*(2) - 1; %[-1, 1]
+    alpha = rand*2*pi; %[0, 2pi] 
+    a = rand*(0.9) + 0.1;   %[0.1, 1] 
+    b = rand*(a-0.1) + 0.1; %[0.1, a]   
+    
+    %alpha = rand*2*pi; 
+    theta = linspace(0,2*pi,test_step);
+    x = h + a*cos(alpha).*cos(theta) - b*sin(alpha).*sin(theta);
+    y = k + a*sin(alpha).*cos(theta) + b*cos(alpha).*sin(theta);
+    i = 0;
+    while any(x.^2 + y.^2 > 0.9) 
+        b = rand*(a-0.1) + 0.1; %[0.1, a] %[0.3, 0.5]
+        x = h + a*cos(alpha).*cos(theta) - b*sin(alpha).*sin(theta);
+        y = k + a*sin(alpha).*cos(theta) + b*cos(alpha).*sin(theta);
+        if i == tolerance
+            i = 0;
+            [h, k, a, b, alpha] = sampleEllipse(test_step);
+        end
+        i = i+1;
+    end
+end
+
 %%
 % function plot_Elipse_in_domain(x, y)
 %     %plotting circle
@@ -95,40 +118,6 @@ end
 %     hold off
 % end
 %%
-function [h, k, a, b, alpha] = sampleEllipse(test_step, tolerance)
-    %# (h, k) centre of ellipse
-    %# (a, b) major and minor axis of ellipse
-    %# alpha angle of rotation
-    narginchk(1, 2);
-    if nargin<2,  tolerance=50; end
-    
-    %a = rand*(0.2) + 0.1 %[0.1, 0.3]
-    %b = rand*(0.2) + 0.3 %[0.3, 0.5]
-    h = rand*(2) - 1; %[-1, 1]
-    k = rand*(2) - 1; %[-1, 1]
-    alpha = rand*2*pi; %[0, 2pi] 
-    
-    theta = linspace(0,2*pi,test_step);
-    
-    %alpha = rand*2*pi;
-    a = rand*(0.9) + 0.1;   %[0.1, 1] %rand*(0.2) + 0.1; %[0.1, 0.3]
-    b = rand*(a-0.1) + 0.1; %[0.1, a] %[0.3, 0.5]
-    x = h + a*cos(alpha).*cos(theta) - b*sin(alpha).*sin(theta);
-    y = k + a*sin(alpha).*cos(theta) + b*cos(alpha).*sin(theta);
-    i = 0;
-    while any(x.^2 + y.^2 > 0.9) %and(any(x.^2 + y.^2 > 1), i < 5)
-        
-        b = rand*(a-0.1) + 0.1; %[0.1, a] %[0.3, 0.5]
-        x = h + a*cos(alpha).*cos(theta) - b*sin(alpha).*sin(theta);
-        y = k + a*sin(alpha).*cos(theta) + b*cos(alpha).*sin(theta);
-        if i == tolerance
-            i = 0;
-            [h, k, a, b, alpha] = sampleEllipse(test_step);
-        end
-        i = i+1;
-        %x.^2 + y.^2 > 1;
-    end
-end
 %%
 % function [x, y] = calculateEllipse(h, k, a, b, alpha, steps)
 %     %# This functions returns points to draw an ellipse

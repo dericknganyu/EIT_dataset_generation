@@ -12,7 +12,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, name = 'conductivities', circle 
 
     #random.seed(0)
     randomlist = random.sample(range(batch_size), nsamp)
-    print(randomlist)
+    #print(randomlist)
     batch_size = nsamp
 
     h = int(batch_size/w)
@@ -28,7 +28,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, name = 'conductivities', circle 
         plt.scatter(x, y, c = z[samp], cmap=colorbar, marker='.') # !!mistake you are plotting first 400 since z[i]. Use z[samp] for random samples
         plt.axis('square')
         plt.axis('off')
-        plt.tile(str(samp))
+        plt.title(str(samp))
         plt.colorbar()
 
     fig.tight_layout()
@@ -56,7 +56,7 @@ for i in range(1,14):
     y    = data_dom['x2'               ]
 
 
-    plot_2d(x, y, cond, directory, w = 20, nsamp = 400)#, circle = True, name = 'conductivities1')
+    plot_2d(x, y, cond, directory)#, w = 20, nsamp = 400)#, circle = True, name = 'conductivities1')
 
 
 
