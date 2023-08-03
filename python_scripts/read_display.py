@@ -8,41 +8,68 @@ import random
 
 
 
-def plot_2d(x, y, z, path, l = 10): 
+def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False): 
     batch_size = z.shape[0]
 
-    randomlist = random.sample(range(batch_size), 5)
+    if random:
+        random.seed(0)
+        randomlist = random.sample(range(batch_size), nsamp)
+        name = 'random_samples'
+        #print(randomlist)
+    else:
+        randomlist = range(0, batch_size) 
+        name = 'samples'   
 
-    w = int(batch_size/l)
+    #batch_size = nsamp
 
-    fig = plt.figure(figsize=((5+1)*l, 5*w))
+    h = int(nsamp/w)
 
-    for i in randomlist:# range(batch_size):
-        print("Plotting figure %s of %s"%(i+1, batch_size))
-        plt.subplot(l,w,i+1)
+    fig = plt.figure(figsize=((5+1)*w, 5*h))
+
+    for samp, i in zip(randomlist, range(nsamp)):
+        if random:
+            print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp))
+        else:
+            print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp+1))
+            
+        plt.subplot(h, w, i+1)
+        if circle:
+            plot_circle()
         colorbar = 'jet'
-        plt.scatter(x, y, c = z[i], cmap=colorbar, marker='.')
+        plt.scatter(x, y, c = z[samp], cmap=colorbar, marker='.') # !!mistake you are plotting first 400 since z[i]. Use z[samp] for random samples
         plt.axis('square')
         plt.axis('off')
+        plt.title(str(samp))
         plt.colorbar()
 
     fig.tight_layout()
     print('Saving figure\n')
-    plt.savefig(path+'/conductivities.png')
+    plt.savefig(path+'/%s_conductivities_%s.png'%(nsamp, name))
+
+def plot_circle(R = [1, 0.90]):
+    th = np.arange(0, 2 * np.pi, np.pi / 100)
+    for r in R: # Add more values here if needed
+        xunit = r * np.cos(th)
+        yunit = r * np.sin(th)
+        plt.plot(xunit, yunit, linestyle='dashed')
+    return
 
 
-path = '/pvfs2/Derick/EIT/Mine/dataset'
+ending = "domain.mat"
+path = '/pvfs2/Derick/EIT/Mine/data'
 
-for i in range(1,14):
-    directory = path + '/part_%s'%(i)
-    print('\nWorking on directory %s'%(directory))
-    data_dom = loadmat(directory +'/dataset_domain.mat')
-    cond = data_dom['inputConductivity']
-    x    = data_dom['x1'               ]
-    y    = data_dom['x2'               ]
+for root, _, files in os.walk(path):
+    for file in files:
+        if ending in file: #file.endswith(ending):
+            file_path = os.path.join(root, file)
+            data_dom = loadmat(file_path)
+            print('\nWorking on directory %s'%(root))
+            cond = data_dom['inputConductivity']
+            x    = data_dom['x1'               ]
+            y    = data_dom['x2'               ]
 
 
-    plot_2d(x, y, cond, directory)
+            plot_2d(x, y, cond, root)
 
 
 
