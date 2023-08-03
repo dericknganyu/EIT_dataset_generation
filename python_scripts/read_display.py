@@ -33,10 +33,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
     fig = plt.figure(figsize=((5+1)*w, 5*h))
 
     for samp, i in zip(randomlist, range(nsamp)):
-        if random:
-            print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp))
-        else:
-            print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp+1))
+        print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp))
 
         plt.subplot(h, w, i+1)
         if circle:
