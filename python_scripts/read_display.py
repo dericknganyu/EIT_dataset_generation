@@ -9,6 +9,7 @@ import random
 
 
 def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False): 
+    
     batch_size = z.shape[0]
 
     if random:
@@ -20,6 +21,11 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
         randomlist = range(0, batch_size) 
         name = 'samples'   
 
+    figname = path+'/%s_conductivities_%s.png'%(nsamp, name)
+
+    if os.path.isfile(figname): #if file exists, no need to proceed
+        print('%s already exists'%(figname))
+        return 
     #batch_size = nsamp
 
     h = int(nsamp/w)
@@ -31,7 +37,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
             print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp))
         else:
             print("Plotting figure %s of %s : Sample %s"%(i+1, nsamp, samp+1))
-            
+
         plt.subplot(h, w, i+1)
         if circle:
             plot_circle()
@@ -44,7 +50,9 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
 
     fig.tight_layout()
     print('Saving figure\n')
-    plt.savefig(path+'/%s_conductivities_%s.png'%(nsamp, name))
+    plt.savefig(figname)
+
+    return
 
 def plot_circle(R = [1, 0.90]):
     th = np.arange(0, 2 * np.pi, np.pi / 100)
