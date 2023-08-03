@@ -1,4 +1,5 @@
-% #Usage#
+% # How to read dataset in the sub-directories of the dataset directory
+% # Usage #
 % path = '../dataset';
 
 % data_boundary = read('bound.mat');
