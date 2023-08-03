@@ -25,7 +25,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
 
     if os.path.isfile(figname): #if file exists, no need to proceed
         print('%s already exists'%(figname))
-        return 
+        return 0
     #batch_size = nsamp
 
     h = int(nsamp/w)
@@ -49,7 +49,7 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
     print('Saving figure\n')
     plt.savefig(figname)
 
-    return
+    return 1
 
 def plot_circle(R = [1, 0.90]):
     th = np.arange(0, 2 * np.pi, np.pi / 100)
@@ -57,12 +57,12 @@ def plot_circle(R = [1, 0.90]):
         xunit = r * np.cos(th)
         yunit = r * np.sin(th)
         plt.plot(xunit, yunit, linestyle='dashed')
-    return
+    return 
 
 
 ending = "domain.mat"
 path = '/pvfs2/Derick/EIT/Mine/data'
-
+runs = 0
 for root, _, files in os.walk(path):
     for file in files:
         if ending in file: #file.endswith(ending):
@@ -74,16 +74,6 @@ for root, _, files in os.walk(path):
             y    = data_dom['x2'               ]
 
 
-            plot_2d(x, y, cond, root)
+            runs += plot_2d(x, y, cond, root)
 
-
-
-# directory = '/pvfs2/Derick/EIT/Mine/data/100_samples__max_Inclusions_3__2023-07-29-14-39-12'
-# data_dom = loadmat(directory +'/dataset_domain.mat')
-# cond = data_dom['inputConductivity']
-# x    = data_dom['x1'               ]
-# y    = data_dom['x2'               ]
-
-# plot_2d(x, y, cond, directory)
-
-# plt.show()
+print('\nTotal of %d runs completed'%(runs))
