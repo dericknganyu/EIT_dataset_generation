@@ -2,3 +2,4 @@
 .json
 .asv
 .gitignore
+__pycache__/
