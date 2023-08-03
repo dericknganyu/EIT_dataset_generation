@@ -2,8 +2,9 @@
 clearvars, 
 %close all
 %clc
-
 %%
+seed = 5;
+rng(seed)
 for iii=1:100
     texture = false;
     max_numInc = 3;
@@ -19,11 +20,11 @@ for iii=1:100
     mesh = generateMesh(mypde,"Hmax",hmax,"Hmin",hmin);
 
     %size(mesh.Nodes)
-    figure(1),clf
-    pdemesh(mypde)
-    axis equal
-    axis off
-    title("Mesh");
+    % figure(1),clf
+    % pdemesh(mypde)
+    % axis equal
+    % axis off
+    % title("Mesh");
 
     %save data/mesh mesh
     Nodes = mesh.Nodes;
@@ -35,7 +36,6 @@ for iii=1:100
 
     angl_circum = theta(idx_circum);
     [angl_circum,sortIdx] = sort(angl_circum,'ascend');
-
 
     %%
     name = sprintf('%d_samples__max_Inclusions_%d__',batchSize,max_numInc) + string(datetime('now','Format',"yyyy-MM-dd-HH-mm-ss"));
@@ -55,27 +55,26 @@ for iii=1:100
     %warning('')  % Clear last warning message
     %%
 
-    tic
+    %tic
     while batchRun <=batchSize
     %for batchRun=1:batchSize
 
         [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mesh, max_numInc, texture);
 
-        figure(2),clf
-        pdeplot(mesh,XYData=condOut)%, mesh='on')
-        colormap jet
-        title("Conductivity");
-        xlabel("x")
-        ylabel("y")
-        axis off
-        axis equal
-        drawnow
-
+        % figure(2),clf
+        % pdeplot(mesh,XYData=condOut)%, mesh='on')
+        % colormap jet
+        % title("Conductivity");
+        % xlabel("x")
+        % ylabel("y")
+        % axis off
+        % axis equal
+        % drawnow
         %pause() 
         tic
         %%
         for N=Nmin:Nmax
-            fprintf('batch %d/%d sample %d/%d\n',batchRun, batchSize, N, nn);
+            fprintf('run %d: batch %d/%d sample %d/%d\n',iii, batchRun, batchSize, N, nn);
             [u, warnmsg]=fem_eit_fwd_v2(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture);%, idx_circum, theta);%, mesh);
             if not(isempty(warnmsg)),break,end
 
@@ -88,53 +87,55 @@ for iii=1:100
             outputVoltage(batchRun, N,:) = u;
             outputBoundvoltage(batchRun, N, :) = u_circum;
             
-            figure(4)
-            pdeplot(mesh,XYData=u)
-            colormap jet
-            title("Numerical Solution");
-            xlabel("x")
-            ylabel("y")  
-            axis off
-            axis equal
+            % figure(4)
+            % pdeplot(mesh,XYData=u)
+            % colormap jet
+            % title("Numerical Solution");
+            % xlabel("x")
+            % ylabel("y")  
+            % axis off
+            % axis equal
 
 
-            figure(5)
-            tiledlayout(3,1)
-            % Top plot
-            ax1 = nexttile;
+            % figure(5)
+            
+            % % Top plot
+            
             if N<=16
                 i_circum = (1/sqrt(pi))*sin(N*angl_circum);
-                legend_name = {"$\frac{1}{\sqrt{\pi}} \sin($"+N+"$\cdot \theta)$"};
+                %legend_name = {"$\frac{1}{\sqrt{\pi}} \sin($"+N+"$\cdot \theta)$"};
             else 
                 i_circum = (1/sqrt(pi))*cos((N-16)*angl_circum);
-                legend_name = {"$\frac{1}{\sqrt{\pi}} \cos($"+num2str(N-16)+"$\cdot \theta)$"};
+                %legend_name = {"$\frac{1}{\sqrt{\pi}} \cos($"+num2str(N-16)+"$\cdot \theta)$"};
             end        
             
             outputBoundcurrent(batchRun, N, :) = i_circum;
+            % subplot(3,1,1)
+            % plot(angl_circum, i_circum, 'color', 'red') 
+            % legend(legend_name,'Interpreter','latex') 
             
-            plot(ax1,angl_circum, i_circum, 'color', 'red') 
-            legend(legend_name,'Interpreter','latex') 
-            
-            %title(ax1,"Injected current, with N ="+N)
-            ylabel(ax1,'Injected current')
-            set(gca,'XTick',0:pi/2:2*pi) 
-            set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','\pi'})
+            % %title("Injected current, with N ="+N)
+            % ylabel('Injected current')
+            % set(gca,'XTick',0:pi/2:2*pi) 
+            % set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','2\pi'})
 
-            % Bottom plot
-            ax2 = nexttile;
-            plot(ax2,angl_circum, u_circum)
-            title(ax2,'Resulting voltage')
-            ylabel(ax2,'voltage')
-            set(gca,'XTick',0:pi/2:2*pi) 
-            set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','\pi'})
+            % % Bottom plot
+            % subplot(3,1,2)
+            % %ax2 = nexttile;
+            % plot(angl_circum, u_circum)
+            % title('Resulting voltage')
+            % ylabel('voltage')
+            % set(gca,'XTick',0:pi/2:2*pi) 
+            % set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','2\pi'})
             
-            ax3 = nexttile;
-            diff = transpose(i_circum)-u_circum;
-            plot(ax3,angl_circum,diff)
+            % subplot(3,1,3)
+            % %ax3 = nexttile;
+            % diff = transpose(i_circum)-u_circum;
+            % plot(angl_circum,diff)
             
-            ylabel(ax3,'voltage-current')
-            set(gca,'XTick',0:pi/2:2*pi)  
-            set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','\pi'})
+            % ylabel('voltage-current')
+            % set(gca,'XTick',0:pi/2:2*pi)  
+            % set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','2\pi'})
             
             
         end
@@ -149,8 +150,9 @@ for iii=1:100
     
     end
 
-    if ~exist(sprintf('data/%s',name), 'dir')
-        mkdir('data', name)
+    PATH = '/pvfs2/Derick/EIT/Mine/data'; %'/localdata/Derick/EIT/Mine/data';
+    if ~exist(sprintf('%s/%s',PATH, name), 'dir')
+        mkdir(PATH, name)
     end
     x1 = single(x1);
     x2 = single(x2);
@@ -161,26 +163,29 @@ for iii=1:100
     angl_circum = single(angl_circum);
     outputBoundcurrent = single(outputBoundcurrent);
     outputBoundvoltage = single(outputBoundvoltage);
-    save(sprintf('data/%s/dataset_domain',name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity');%, 'outputVoltage');
-    save(sprintf('data/%s/dataset_bound',name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
-    save(sprintf('data/%s/mesh',name), 'mesh')
+    save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
+    save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
+    save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
+
+    %sprintf('data/%s/dataset_domain',name)
+
+    %{
+    angl_circum;
+    difference = angl_circum(2:end) - angl_circum(1:end-1);
+    uniq = unique(difference)
+    %}
+    clearvars;                                                                 
+
 
 end
-%{
-angl_circum;
-difference = angl_circum(2:end) - angl_circum(1:end-1);
-uniq = unique(difference)
-%}
-clearvars;                                                                 
 
 function [rad, theta]=polarcoord(xx, yy)
     rad = sqrt(xx.^2 + yy.^2);
     %theta = zeros(size(xx));
-
     theta = atan(yy./xx);
     theta(xx <= 0) = theta(xx <= 0) + pi;  
     theta(xx >0 & yy<0) = theta(xx >0 & yy<0) + 2*pi;
     
     %theta(theta>pi & theta<=1.5*pi) = theta(theta>pi & theta<=1.5*pi) - 2*pi;
     %theta = rad2deg(theta);
-end
+end                                              
