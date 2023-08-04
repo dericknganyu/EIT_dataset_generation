@@ -1,4 +1,4 @@
-function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mesh, max_numInc, texture)
+function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity(mesh, max_numInc, texture)
     nodes = mesh.Nodes;
     
     x1 = nodes(1,:);
@@ -88,7 +88,7 @@ function [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance)
                                %ellipses more than we can tolerate and they keep overlapping, so we should restart
                                %sampling of the 1st sample
             end
-            if tol >= tolerance; break; end         
+            if tol == tolerance; break; end         
         end
         l = l + 1;
         if tol == tolerance; l = 1; end %fprintf('\n Restarting.....\n'); 
@@ -105,13 +105,12 @@ function [h, k, a, b, alpha] = sampleEllipse(test_step, tolerance)
     narginchk(1, 2);
     if nargin<2,  tolerance=50; end
     
-    h = rand*(2) - 1; %[-1, 1]
-    k = rand*(2) - 1; %[-1, 1]
+    h = rand*(1.8) - 0.9; %[-0.9, 0.9]
+    k = rand*(1.8) - 0.9; %[-0.9, 0.9]
     alpha = rand*2*pi; %[0, 2pi] 
-    a = rand*(0.9) + 0.1;   %[0.1, 1] 
+    a = rand*(0.8) + 0.1;   %[0.1, 0.9] 
     b = rand*(a-0.1) + 0.1; %[0.1, a]   
-    
-    %alpha = rand*2*pi; 
+
     theta = linspace(0,2*pi,test_step);
     x = h + a*cos(alpha).*cos(theta) - b*sin(alpha).*sin(theta);
     y = k + a*sin(alpha).*cos(theta) + b*cos(alpha).*sin(theta);

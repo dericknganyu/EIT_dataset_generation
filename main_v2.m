@@ -59,7 +59,7 @@ for iii=1:100
     while batchRun <=batchSize
     %for batchRun=1:batchSize
 
-        [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_ellipses(mesh, max_numInc, texture);
+        [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity(mesh, max_numInc, texture);
 
         % figure(2),clf
         % pdeplot(mesh,XYData=condOut)%, mesh='on')
