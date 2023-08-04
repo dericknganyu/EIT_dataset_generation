@@ -5,9 +5,6 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import random
 
-
-
-
 def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False): 
     
     batch_size = z.shape[0]
