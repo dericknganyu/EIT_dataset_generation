@@ -60,7 +60,7 @@ end
 %% 
 function [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance)
     narginchk(1, 2);
-    if nargin<2,  tolerance = 50; test_step = 200; end
+    if nargin<2,  tolerance = 200; test_step = 200; end
     
     h = zeros(1, numInc); k = zeros(1, numInc);
     a = zeros(1, numInc); b = zeros(1, numInc);
