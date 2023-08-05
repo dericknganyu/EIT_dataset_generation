@@ -176,6 +176,14 @@ for iii=1:100
     angl_circum = single(angl_circum);
     outputBoundcurrent = single(outputBoundcurrent);
     outputBoundvoltage = single(outputBoundvoltage);
+    
+    HH = single(HH);
+    KK = single(KK);
+    AA = single(AA);
+    BB = single(BB);
+    ALPHA = single(ALPHA);
+    COND = single(COND);
+    
     save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
     save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
     save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
