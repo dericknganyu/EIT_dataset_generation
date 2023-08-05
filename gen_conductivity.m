@@ -59,40 +59,46 @@ function [X] = cart_ellipse(x, y, h, k, a, b, alpha)
 end
 %% 
 function [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance)
-    narginchk(1, 2);
-    if nargin<2,  tolerance = 200; test_step = 200; end
+    narginchk(1, 3);
+    if nargin < 3
+        tolerance = 5;%200;
+    end
+    if nargin < 2
+        test_step = 200;
+    end
     
     h = zeros(1, numInc); k = zeros(1, numInc);
     a = zeros(1, numInc); b = zeros(1, numInc);
     alpha = zeros(1, numInc); 
   
-    l = 1;  
-    while l == 1
-        [h(l), k(l), a(l), b(l), alpha(l)] = sampleEllipse(test_step);
 
-        tol = 0;    
-        for i = 2:numInc 
-            overlap = true;         
-            tol = 0;
-            while overlap && tol<tolerance
-                overlap = false;
-                [h(i), k(i), a(i), b(i), alpha(i)] = sampleEllipse(test_step);
-                for j = 1:i-1  
-                    if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i)
-                        overlap = true; % means generated inclusion 'overlaps' with another
-                        break             % exit for loop and generate new sample
-                    end %if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i); overlap = true; end
-                end
-                tol = tol + 1; %when tol finally equals tolerance, the while loop ends
-                               %Meaning we have tried to sampling non-overlapping
-                               %ellipses more than we can tolerate and they keep overlapping, so we should restart
-                               %sampling of the 1st sample
+    [h(1), k(1), a(1), b(1), alpha(1)] = sampleEllipse(test_step);
+
+    %tol = 0;    
+    for i = 2:numInc 
+        overlap = true;         
+        tol = 0;
+        while overlap && tol<tolerance
+            overlap = false;
+            [h(i), k(i), a(i), b(i), alpha(i)] = sampleEllipse(test_step);
+            for j = 1:i-1  
+                if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i)
+                    overlap = true; % means generated inclusion 'overlaps' with another
+                    break             % exit for loop and generate new sample
+                end %if norm([h(j), k(j)] - [h(i), k(i)]) < a(j) + a(i); overlap = true; end
             end
-            if tol == tolerance; break; end         
+            tol = tol + 1; %when tol finally equals tolerance, the while loop ends
+                           %Meaning we have tried to sampling non-overlapping
+                           %ellipses more than we can tolerate and they keep overlapping, so we should restart
+                           %sampling of the 1st sample
         end
-        l = l + 1;
-        if tol == tolerance; l = 1; end %fprintf('\n Restarting.....\n'); 
-    end         
+        if tol == tolerance%; break; end     
+            [h, k, a, b, alpha] = sampleInclusions(numInc, test_step, tolerance);
+            break;
+        end
+        
+    end
+     
 end
 
 function [h, k, a, b, alpha] = sampleEllipse(test_step, tolerance)
