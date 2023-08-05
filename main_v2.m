@@ -3,8 +3,8 @@ clearvars,
 %close all
 %clc
 %%
-seed = 5;
-rng(seed)
+% seed = 1;
+% rng(seed)
 for iii=1:100
     texture = false;
     max_numInc = 3;
@@ -183,7 +183,7 @@ for iii=1:100
     BB = single(BB);
     ALPHA = single(ALPHA);
     COND = single(COND);
-    
+
     save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
     save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
     save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
