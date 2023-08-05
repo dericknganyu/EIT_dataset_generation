@@ -48,6 +48,12 @@ for iii=1:100
     outputVoltage = zeros(batchSize,nn,nx);
     outputBoundvoltage = zeros(batchSize,nn,nx_circum);
     outputBoundcurrent = zeros(batchSize,nn,nx_circum);
+    HH    = zeros(batchSize,max_numInc);
+    KK    = zeros(batchSize,max_numInc);
+    AA    = zeros(batchSize,max_numInc);
+    BB    = zeros(batchSize,max_numInc);
+    ALPHA = zeros(batchSize,max_numInc);
+    COND  = zeros(batchSize,max_numInc);
 
 
     count=0;
@@ -143,6 +149,13 @@ for iii=1:100
         toc
         %%
         inputConductivity(batchRun, :) = condOut;
+    
+        HH(batchRun, 1:size(h,2))    = h;
+        KK(batchRun, 1:size(h,2))    = k;
+        AA(batchRun, 1:size(h,2))    = a;
+        BB(batchRun, 1:size(h,2))    = b;
+        ALPHA(batchRun, 1:size(h,2)) = alpha;
+        COND(batchRun, 1:size(h,2))  = cond;
         
         if isempty(warnmsg)
             batchRun = batchRun+1;
@@ -166,6 +179,7 @@ for iii=1:100
     save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
     save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
     save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
+    save(sprintf('%s/%s/inclusions',PATH, name), 'HH', 'KK', 'AA', 'BB', 'ALPHA', 'COND');
 
     %sprintf('data/%s/dataset_domain',name)
 
