@@ -19,20 +19,17 @@ def file2List(directory, ending):
 
 
 def merge_mat_files(directory, ending, merged_data=[], nmax=100):
-    # Dictionary to store the merged data
-    
+    # Dictionary to store the merged data and list to save merge data name
     new_merged_data = []
     result = {}
-
     # Walk through the directory tree
     i = 0
     first_entry = True
-    
     for root, _, files in os.walk(directory):
         for file in files:
-            if ending in file: #file.endswith(ending):
+            if ending in file: 
                 filepath = os.path.join(root, file)
-
+                # Load data and get the keys
                 if first_entry:
                     dataset = loadmat(filepath)
                     if 'outputVoltage' in dataset.keys():
@@ -40,16 +37,11 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
                     for keys, _ in dataset.items():
                         result[keys] = []
                     first_entry = False
-
                 # Extract the file name without extension
                 dirname = root[len(directory)+1::]
                 # print(dirname)
-
-                # Load the data from the MATLAB file
-            
-                # Merge the data into the dictionary
+                # Load the data from the MATLAB file and Merge the data into the dictionary if not yet merged
                 if dirname not in merged_data:
-                    #print('Yeah')
                     i = i+1 
                     new_merged_data.append(dirname)
                     dataset  = loadmat(filepath)
@@ -61,36 +53,21 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
                 else:
                     continue
 
-
-
     for keys, _ in dataset.items():
         if (keys in list_special):
-            #print(keys)
             continue
-        if result[keys]:    
-            print(keys)
+        if result[keys]:
             result[keys] = np.concatenate(result[keys], axis=0)
-            #print(type(result[keys]))
             batch_size =   result[keys].shape[0]  
-            print(result[keys].shape)
-            #print(batch_size)
 
     if new_merged_data:
         with open('%s/logs_mergedFiles_%s.%s'%(directory_path, TIMESTAMP, ending[:]), 'w') as f:
             for line in new_merged_data:
                 f.write("%s\n" % line)
         
-        for keyss in list_special:
+        for keyss in list_special: # These keys have values which are same for all batches, so do not need to be repeated
             if keyss in result:
                 result[keyss]= result[keyss][0]
-
-        # for keys, _ in result.items():
-        #     if keys == "__header__" or keys == "__version__" or keys == "__globals__":
-        #         #print(keys)
-        #         continue
-        #     if result[keys].any():    
-        #         print(result[keys].shape)
-
 
         start = 0
         stop = 0
@@ -100,7 +77,7 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
             stop = min(start + nmax, batch_size)  
 
             for keys, values in result.items():
-                if (keys in list_special): #keys == "__header__" or keys == "__version__" or keys == "__globals__" or keys in list_special:
+                if (keys in list_special): 
                     #print(keys)
                     RESULT[keys] = values
                     #continue
