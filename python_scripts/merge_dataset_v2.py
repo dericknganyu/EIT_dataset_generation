@@ -19,35 +19,26 @@ def file2List(directory, ending):
 
 
 def merge_mat_files(directory, ending, merged_data=[], nmax=100):
-    # Dictionary to store the merged data
-    
     new_merged_data = []
     result = {}
-
     # Walk through the directory tree
     i = 0
     first_entry = True
-    
     for root, _, files in os.walk(directory):
         for file in files:
             if ending in file: #file.endswith(ending):
                 filepath = os.path.join(root, file)
-
+                # Get the keys
                 if first_entry:
                     bound = loadmat(filepath)
                     for keys, _ in bound.items():
                         result[keys] = []
                     first_entry = False
-
                 # Extract the file name without extension
                 dirname = root[len(directory)+1::]
                 # print(dirname)
-
-                # Load the data from the MATLAB file
-            
-                # Merge the data into the dictionary
+                # Load the data from the MATLAB file and Merge the data into the dictionary if not yet merged
                 if dirname not in merged_data:
-                    #print('Yeah')
                     i = i+1 
                     new_merged_data.append(dirname)
                     bound  = loadmat(filepath)
@@ -55,22 +46,19 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
                     for keys, _ in bound.items():
                         result[keys].append(bound[keys])
                 else:
-                    continue
-            
+                    continue     
 
     for keys, _ in bound.items():
         if (keys in list_special):
-            #print(keys)
+            # print(keys)
             continue
         if result[keys]:    
-            print(keys)
+            # print(keys)
             result[keys] = np.concatenate(result[keys], axis=0)
             #print(type(result[keys]))
             batch_size =   result[keys].shape[0]  
-            print(result[keys].shape)
-            print(batch_size)
-
-
+            # print(result[keys].shape)
+            # print(batch_size)
 
     if new_merged_data:
         with open('%s/logs_mergedFiles_%s.%s'%(directory_path, TIMESTAMP, ending[:]), 'w') as f:
@@ -97,7 +85,7 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
             stop = min(start + nmax, batch_size)  
 
             for keys, values in result.items():
-                if (keys in list_special): #keys == "__header__" or keys == "__version__" or keys == "__globals__" or keys in list_special:
+                if (keys in list_special): 
                     #print(keys)
                     RESULT[keys] = values
                     #continue
@@ -114,7 +102,6 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
             print("\nCopy ended at index %s"%(stop)) 
             #print(batch_size)
 
-
     return merged_data, result
 
 
@@ -127,10 +114,9 @@ if __name__ == "__main__":
     savename['mesh'  ] = 'mesh.mat'
     list_special = ["angl_circum", "radius", "theta", "x1", "x2", "__header__", "__version__", "__globals__"]
 
-
     directory_path = '/pvfs2/Derick/EIT/Mine/data'
 
-    for ending in ['bound']:#['domain', 'bound']:
+    for ending in ['bound']:#['domain', 'bound', ]:
         #ending = "bound" #"dataset_bound.mat"
         nmax = 10000
 

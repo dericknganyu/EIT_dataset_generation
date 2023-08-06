@@ -163,7 +163,7 @@ for iii=1:100
     
     end
     if texture
-        PATH = '/pvfs2/Derick/EIT/Mine/data_texture'; %'/localdata/Derick/EIT/Mine/data';
+        PATH = '/pvfs2/Derick/EIT/Mine/data_texture'; %#ok<UNRCH> %'/localdata/Derick/EIT/Mine/data';
     else
         PATH = '/pvfs2/Derick/EIT/Mine/data'; %'/localdata/Derick/EIT/Mine/data';
     end
