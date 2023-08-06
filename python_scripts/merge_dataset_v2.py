@@ -26,7 +26,7 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
     first_entry = True
     for root, _, files in os.walk(directory):
         for file in files:
-            if ending in file: #file.endswith(ending):
+            if ending in file: 
                 filepath = os.path.join(root, file)
                 # Get the keys
                 if first_entry:
@@ -47,7 +47,7 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
                         result[keys].append(bound[keys])
                 else:
                     continue     
-
+                    
     for keys, _ in bound.items():
         if (keys in list_special):
             # print(keys)
@@ -65,17 +65,9 @@ def merge_mat_files(directory, ending, merged_data=[], nmax=100):
             for line in new_merged_data:
                 f.write("%s\n" % line)
         
-        for keyss in list_special:
+        for keyss in list_special: # These keys have values which are same for all batches, so do not need to be repeated
             if keyss in result:
                 result[keyss]= result[keyss][0]
-
-        # for keys, _ in result.items():
-        #     if keys == "__header__" or keys == "__version__" or keys == "__globals__":
-        #         #print(keys)
-        #         continue
-        #     if result[keys].any():    
-        #         print(result[keys].shape)
-
 
         start = 0
         stop = 0

@@ -2,9 +2,9 @@
 % # Usage #
 % path = '../dataset';
 
-% data_boundary = read('bound.mat');
-% data_domain   = read('bound.mat');
-% mesh          = read('mesh.mat');
+% data_boundary = read_dataset('bound.mat');
+% data_domain   = read_dataset('domain.mat');
+% mesh          = read_dataset('mesh.mat');
 
 function [data] = read_dataset(path, ending)
     dir_list = dir(path);
