@@ -5,3 +5,4 @@
 __pycache__/
 archive
 upload
+.ipynb_checkpoints
