@@ -6,9 +6,9 @@ clearvars,
 % seed = 1;
 % rng(seed)
 for iii=1:100
-    texture = false;
+    texture = true;
     max_numInc = 3;
-    batchSize = 100;%32;%4%32; 
+    batchSize = 32;%4%32; 
     Nmin = 1;  Nmax = 32;
 
     %%
@@ -54,7 +54,8 @@ for iii=1:100
     BB    = zeros(batchSize,max_numInc);
     ALPHA = zeros(batchSize,max_numInc);
     COND  = zeros(batchSize,max_numInc);
-
+    KX    = zeros(batchSize,max_numInc);
+    KY    = zeros(batchSize,max_numInc);
 
     count=0;
     batchRun = 1;
@@ -65,7 +66,7 @@ for iii=1:100
     while batchRun <=batchSize
     %for batchRun=1:batchSize
 
-        [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity(mesh, max_numInc, texture);
+    [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_conductivity(mesh, max_numInc, texture);
 
         % figure(2),clf
         % pdeplot(mesh,XYData=condOut)%, mesh='on')
@@ -148,14 +149,16 @@ for iii=1:100
         
         toc
         %%
-        inputConductivity(batchRun, :) = condOut;
-    
-        HH(batchRun, 1:size(h,2))    = h;
-        KK(batchRun, 1:size(h,2))    = k;
-        AA(batchRun, 1:size(h,2))    = a;
-        BB(batchRun, 1:size(h,2))    = b;
-        ALPHA(batchRun, 1:size(h,2)) = alpha;
-        COND(batchRun, 1:size(h,2))  = cond;
+        inputConductivity(batchRun, :) = condOut;    
+        
+        HH(batchRun, 1:numInc)    = h;
+        KK(batchRun, 1:numInc)    = k;
+        AA(batchRun, 1:numInc)    = a;
+        BB(batchRun, 1:numInc)    = b;
+        ALPHA(batchRun, 1:numInc) = alpha;
+        COND(batchRun, 1:numInc)  = cond;
+        KX(batchRun, 1:numInc)    = kx;
+        KY(batchRun, 1:numInc)    = ky;
         
         if isempty(warnmsg)
             batchRun = batchRun+1;
@@ -187,6 +190,8 @@ for iii=1:100
     BB = single(BB);
     ALPHA = single(ALPHA);
     COND = single(COND);
+    KX   = single(KX);
+    KY   = single(KY);
 
     save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
     save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');

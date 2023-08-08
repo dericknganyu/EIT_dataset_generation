@@ -1,4 +1,4 @@
-function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity(mesh, max_numInc, texture)
+function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_conductivity(mesh, max_numInc, texture)
     nodes = mesh.Nodes;
     
     x1 = nodes(1,:);
@@ -7,6 +7,8 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity
     numInc = randi(max_numInc);
 
     cond = zeros(1, numInc);
+    kx   = zeros(1, numInc);
+    ky   = zeros(1, numInc);
     
     
     backCond=1;
@@ -18,9 +20,10 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha] = gen_conductivity
         for i = 1:numInc             
             X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
             X1 = x1(X<=1);  X2 = x2(X<=1);
-            kx = 20;  ky = 30; %to be decided upon
+            kx(i) = unifrnd(5, 15, 1, 1); 
+            ky(i) = unifrnd(5, 15, 1, 1);
             centre = [h(i), k(i)];
-            res = 0.5*(1 + add_texture(X2, X1, kx, ky, alpha(i), centre)); %scaling so that [0, 1]
+            res = 0.5*(1 + add_texture(X2, X1, kx(i), ky(i), alpha(i), centre)); %scaling so that [0, 1]
             
             cond_opt  = [0, 1]; 
             cond_idx  = randi([1, 2], 1); %chooseing between 0 and 1
