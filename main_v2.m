@@ -8,7 +8,7 @@ clearvars,
 for iii=1:100
     texture = true;
     max_numInc = 3;
-    batchSize = 32;%4%32; 
+    batchSize = 100;%4%32; 
     Nmin = 1;  Nmax = 32;
 
     %%
