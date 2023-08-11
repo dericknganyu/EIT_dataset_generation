@@ -65,8 +65,8 @@ In the dataset and dataset_textures directory you would find:
 
 # Example of samples with variable conductivity (textured) inclusions
 
-![image](https://drive.google.com/uc?export=view&id=<1kZCyoWp5nR4nQRunxgGLXi8w-vGi6B0z)
-
+![image](https://drive.google.com/uc?export=view&id=<1kZCyoWp5nR4nQRunxgGLXi8w-vGi6B0z>)
+https://drive.google.com/file/d//view?usp=drive_link
 ## Reference
 ```bibtex
 @article{
