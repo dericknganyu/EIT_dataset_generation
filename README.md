@@ -4,13 +4,12 @@
 [![Matlab R2022a](https://img.shields.io/badge/Matlab-R2022a-orange.svg)](https://www.python.org/downloads/release/python-3100/)
 [![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)](TBD)
 
-# Runnung code
+## Runnung code
 Launch matlab in parent directory run the script
 ```bash
 main
 ```
-# Description
-
+## FIles
 In the parent directory: 
 
 ➡️ main_v2.m        : main script used for generating the dataset
@@ -59,18 +58,17 @@ In the dataset and dataset_textures directory you would find:
 	
 	◼️ 100_conductivities_samples.png: for a visualisation of samples 
 	
-# Example of samples with constant conductivity inclusions
-![alt text](https://drive.google.com/uc?export=view&id=119M4oo_ycrYwpDIdxgvwSXwvoTc7ksTM)
-[![alt text](https://github.com/dericknganyu/EIT_dataset_generation/blob/main/dataset/100_conductivities_samples.png)]
+## Example of samples with constant conductivity inclusions
+![constant_inclusions](https://drive.google.com/uc?export=view&id=119M4oo_ycrYwpDIdxgvwSXwvoTc7ksTM)
 
-# Example of samples with variable conductivity (textured) inclusions
-![alt text](https://drive.google.com/uc?export=view&id=1mtgaT4YWAA-DEyQ5AVLuKwMtDXrmtrNH)
+## Example of samples with variable conductivity (textured) inclusions
+![textured_inclusions](https://drive.google.com/uc?export=view&id=1mtgaT4YWAA-DEyQ5AVLuKwMtDXrmtrNH)
+
 ## Reference
 ```bibtex
 @article{
 }
 ```
-
 ## Acknowledgmentss
 
 
