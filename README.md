@@ -41,7 +41,7 @@ In the src directory:
 
 ➡️ fem_eit_fwd_v2.m : finite_element solver function
 
-➡️ gen_ellipses     : conductivity generation function
+➡️ gen_conductivity     : conductivity generation function
 
 ## Reference
 ```bibtex
