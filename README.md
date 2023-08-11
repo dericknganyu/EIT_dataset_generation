@@ -58,10 +58,10 @@ In the dataset and dataset_textures directory you would find:
 	
 	◼️ 100_conductivities_samples.png: for a visualisation of samples 
 	
-## Example of samples with constant conductivity inclusions
+### Example of samples with constant conductivity inclusions
 ![constant_inclusions](https://drive.google.com/uc?export=view&id=119M4oo_ycrYwpDIdxgvwSXwvoTc7ksTM)
 
-## Example of samples with variable conductivity (textured) inclusions
+### Example of samples with variable conductivity (textured) inclusions
 ![textured_inclusions](https://drive.google.com/uc?export=view&id=1mtgaT4YWAA-DEyQ5AVLuKwMtDXrmtrNH)
 
 ## Reference
