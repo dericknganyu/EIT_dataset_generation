@@ -1,13 +1,13 @@
 # Dataset for the paper TBD
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Python 3.85](https://img.shields.io/badge/python-3.85-blue.svg)](https://www.python.org/downloads/release/python-385/)
 [![Matlab R2022a](https://img.shields.io/badge/Matlab-R2022a-orange.svg)](https://www.python.org/downloads/release/python-3100/)
+[![Python 3.85](https://img.shields.io/badge/python-3.85-blue.svg)](https://www.python.org/downloads/release/python-385/)
 [![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)](TBD)
 
 ## Runnung code
 To generate and save ```batchSize``` samples (with ```Nmax-Nmin+1``` currents), ```numRuns``` times, 
 so that each sample has not more than ```max_numInc``` inclusions, with or without textures, 
-depending on the values of ```textures```. navigate to the directory containing the parent directory
+depending on the values of ```textures``` (either ```true``` or ```false```),  navigate to the directory containing the files
 
 ➡️ In terminal, run the command
 ```bash
