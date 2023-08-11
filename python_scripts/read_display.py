@@ -59,7 +59,7 @@ def plot_circle(R = [1, 0.90]):
 
 
 ending = "domain.mat"
-path = '/pvfs2/Derick/EIT/Mine/data'
+path = '/pvfs2/Derick/EIT/Mine/data_texture'
 runs = 0
 for root, _, files in os.walk(path):
     for file in files:
