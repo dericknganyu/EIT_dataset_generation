@@ -21,7 +21,6 @@ In the dataset and dataset_textures directory you would find:
 
 	◼️ dataset_bound.mat contains:
 	
-	
 		➤ angl_circum              (1, 339) : theta, for the point on the boundary:  
 		
 		➤ outputBoundcurrent (100, 32, 339) : input boundary current: (maybe I should have saved it as inputBoundcurrent)
