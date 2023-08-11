@@ -4,5 +4,5 @@
 .gitignore
 __pycache__/
 archive
-upload
+gdrive_scripts
 .ipynb_checkpoints
