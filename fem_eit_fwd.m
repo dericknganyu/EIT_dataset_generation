@@ -1,5 +1,5 @@
 
-function [u, warnmsg]=fem_eit_fwd_v2(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture)%, idx_circum, theta, mesh)
+function [u, warnmsg]=fem_eit_fwd(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture)%, idx_circum, theta, mesh)
     %backCond, posNum, pos, xya, hex, hey, rad = phantom_infos;
     ccoefX = @(location, state)ccoeffunctionX(location, state, numInc, backCond, cond, h, k, a, b, alpha, texture);
                                              %(location,state,backCond, posNum, pos, xya, hex, hey, rad)
@@ -17,7 +17,7 @@ function [u, warnmsg]=fem_eit_fwd_v2(numInc, backCond, cond, h, k, a, b, alpha, 
 
     lastwarn('')%warning('');  % Clear last warning message
     results = solvepde(mypde);
-    [warnmsg, msgid] = lastwarn;
+    [warnmsg, ~] = lastwarn;
     %sprintf(warnmsg)
     if not(isempty(warnmsg)) %then no need to do plots, so we exit function with return below
         u = 0;
@@ -45,7 +45,7 @@ function [z] = add_texture(x, y, kx, ky, angle, centre)
     
 end
 %%
-function gmatrix=mygfunN(location,state,N)    
+function gmatrix=mygfunN(location,~,N)    
     n1 = 1;
     nr = numel(location.x);
     gmatrix = zeros(n1,nr);
@@ -63,7 +63,7 @@ function gmatrix=mygfunN(location,state,N)
     
 end
 %%
-function condOut=ccoeffunctionX(location, state, numInc, backCond, cond, h, k, a, b, alpha, texture)
+function condOut=ccoeffunctionX(location, ~, numInc, backCond, cond, h, k, a, b, alpha, texture)
     condOut = ones(size(location.x))*backCond;
     x1 = location.x;
     x2 = location.y;

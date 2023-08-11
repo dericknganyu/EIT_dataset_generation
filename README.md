@@ -4,14 +4,30 @@
 [![Matlab R2022a](https://img.shields.io/badge/Matlab-R2022a-orange.svg)](https://www.python.org/downloads/release/python-3100/)
 [![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)](TBD)
 
+# Runnung code
+Launch matlab in parent directory run the script
+```bash
+main
+```
 # Description
 
-✦ src              : the code used for data generation (codes commenting for understanding to follow)
+In the parent directory: 
 
-✦ dataset          : The datasets with inclusions of uniform conductivity in folders. 
+➡️ main_v2.m        : main script used for generating the dataset
 
-✦ dataset_textures : The datasets with inclusions of variable conductivity in folders.
+➡️ fem_eit_fwd_v2.m : finite_element solver function
 
+➡️ gen_conductivity : conductivity generation function
+
+Sub-directories
+
+✦ dataset               : The datasets with inclusions of uniform conductivity in folders. 
+
+✦ dataset_textures      : The datasets with inclusions of variable conductivity in folders.
+
+✦ python_helper_scripts : more useful python scripts and jupyter (ipython) notebooks
+
+✦ matlab_helper_scripts : more useful matlab scripts
 
 ## Dataset Description
 
@@ -37,13 +53,19 @@ In the dataset and dataset_textures directory you would find:
 		
 		➤ radius, theta    each (1, 16785) : the polar coordinates:  
 	
-In the src directory: 
+	◼️ inclusions.mat contains: 
+	
+	◼️ dataset_domain.mat contains: 
+	
+	◼️ 100_conductivities_samples.png: for a visualisation of samples 
+	
+# Example of samples with uniform conductivity inclusions
 
-➡️ main_v2.m        : main script used for generating the dataset
+![alt text](https://drive.google.com/file/d/119M4oo_ycrYwpDIdxgvwSXwvoTc7ksTM/view?usp=drive_link)
 
-➡️ fem_eit_fwd_v2.m : finite_element solver function
+# Example of samples with variable conductivity (textured) inclusions
 
-➡️ gen_conductivity     : conductivity generation function
+![alt text](https://drive.google.com/drive/u/4/folders/1kZCyoWp5nR4nQRunxgGLXi8w-vGi6B0z)
 
 ## Reference
 ```bibtex

@@ -82,7 +82,7 @@ for iii=1:100
         %%
         for N=Nmin:Nmax
             fprintf('run %d: batch %d/%d sample %d/%d\n',iii, batchRun, batchSize, N, nn);
-            [u, warnmsg]=fem_eit_fwd_v2(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture);%, idx_circum, theta);%, mesh);
+            [u, warnmsg]=fem_eit_fwd(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture);%, idx_circum, theta);%, mesh);
             if not(isempty(warnmsg)),break,end
 
             u_circum = u(idx_circum);
