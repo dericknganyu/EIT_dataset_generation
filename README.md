@@ -5,12 +5,19 @@
 [![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)](TBD)
 
 ## Runnung code
-Navigate to directory run the command
+To generate and save ```batchSize``` samples (with ```Nmax-Nmin+1``` currents), ```numRuns``` times, 
+so that each sample has not more than ```max_numInc``` inclusions, with or without textures, 
+depending on the values of ```textures```. navigate to the directory containing the parent directory
+
+➡️ In terminal, run the command
 ```bash
 matlab -nodisplay -r "run numRuns texture max_numInc batchSize Nmax Nmin"
 ```
-to generate and save 'batchSize' samples (with 'Nmax-Nmin+1' currents), 'numRuns' times.
-Each sample has not more than 'max_numInc' inclusions, with or without textures, depending on the values of textures.
+
+➡️ In matlab command window
+```bash
+run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
+```
 
 ## FIles
 In the parent directory: 
