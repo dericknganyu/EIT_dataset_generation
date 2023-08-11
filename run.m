@@ -5,27 +5,24 @@
 %%
 % seed = 1;
 % rng(seed)
+
+% We generate and save 'batchSize' samples (with 'Nmax-Nmin+1' currents), 'numRuns' times.
+% Each sample has not more than 'max_numInc' inclusions.
+
 function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
     % Check if the input arguments are provided, and if not, set default values
-    if nargin < 1
-        numRuns = 100;
-    end
-    if nargin < 2
-        texture = true;
-    end
-    if nargin < 3
-        max_numInc = 3;
-    end
-    if nargin < 4
-        batchSize = 100;
-    end
-    if nargin < 5
-        Nmax = 32;
-    end
-    if nargin < 6
-        Nmin = 1;
-    end
-
+    if nargin < 1; numRuns    = 100 ; end
+    if nargin < 2; texture    = true; end
+    if nargin < 3; max_numInc = 3   ; end
+    if nargin < 4; batchSize  = 100 ; end
+    if nargin < 5; Nmax       = 32  ; end
+    if nargin < 6; Nmin       = 1   ; end
+    
+    if ischar(numRuns   ); numRuns    = str2double(numRuns   ); end
+    if ischar(max_numInc); max_numInc = str2double(max_numInc); end  
+    if ischar(batchSize ); batchSize  = str2double(batchSize ); end
+    if ischar(Nmax      ); Nmax       = str2double(Nmax      ); end   
+    if ischar(Nmin      ); Nmin       = str2double(Nmin      ); end
     for iii=1:numRuns
         %texture = true;
         %max_numInc = 3;
@@ -103,8 +100,8 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
             tic
             %%
             for N=Nmin:Nmax
-                fprintf('run %d: batch %d/%d sample %d/%d\n',iii, batchRun, batchSize, N, nn);
-                [u, warnmsg]=fem_eit_fwd_v2(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture);%, idx_circum, theta);%, mesh);
+                fprintf('run %d of %d: batch %d/%d sample %d/%d\n',iii, numRuns, batchRun, batchSize, N, nn);
+                [u, warnmsg]=fem_eit_fwd(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture);%, idx_circum, theta);%, mesh);
                 if not(isempty(warnmsg)),break,end
 
                 u_circum = u(idx_circum);
