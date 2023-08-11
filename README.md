@@ -10,13 +10,9 @@
 
 ✦ dataset_textures : (TBD)
 
-## Summary
-
-## Training
-
-## Evaluation
 
 ## Dataset Description
+
 In the dataset and dataset_textures directory you would find: 
 
 ➡️ mesh.mat : an object containing the mesh information
