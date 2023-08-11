@@ -7,7 +7,8 @@
 % rng(seed)
 
 % We generate and save 'batchSize' samples (with 'Nmax-Nmin+1' currents), 'numRuns' times.
-% Each sample has not more than 'max_numInc' inclusions.
+% Each sample has not more than 'max_numInc' inclusions, with or without
+% textures, depending on the values of textures.
 
 function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
     % Check if the input arguments are provided, and if not, set default values
