@@ -4,11 +4,13 @@
 [![Matlab R2022a](https://img.shields.io/badge/Matlab-R2022a-orange.svg)](https://www.python.org/downloads/release/python-3100/)
 [![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)](TBD)
 
+# Description
+
 ✦ src              : the code used for data generation (codes commenting for understanding to follow)
 
-✦ dataset          : The datasets in n folders numbered parts_n. Each part is made of 5000 samples. 
+✦ dataset          : The datasets with inclusions of uniform conductivity in folders. 
 
-✦ dataset_textures : (TBD)
+✦ dataset_textures : The datasets with inclusions of variable conductivity in folders.
 
 
 ## Dataset Description
