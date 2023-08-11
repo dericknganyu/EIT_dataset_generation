@@ -59,21 +59,21 @@ In the dataset and dataset_textures directory you would find:
 	
 	◼️ 100_conductivities_samples.png: for a visualisation of samples 
 	
-# Example of samples with uniform conductivity inclusions
+# Example of samples with constant conductivity inclusions
 
 ![alt text](https://github.com/dericknganyu/EIT_dataset_generation/blob/main/dataset/100_conductivities_samples.png)
 
 # Example of samples with variable conductivity (textured) inclusions
 
-![image](https://drive.google.com/uc?export=view&id=<1mtgaT4YWAA-DEyQ5AVLuKwMtDXrmtrNH>)
-https://drive.google.com/file/d//view?usp=drive_link
+![alt text](https://drive.google.com/uc?export=view&id=<1mtgaT4YWAA-DEyQ5AVLuKwMtDXrmtrNH>)
+
 ## Reference
 ```bibtex
 @article{
 }
 ```
 
-## Acknowledgments
+## Acknowledgmentss
 
 
 
