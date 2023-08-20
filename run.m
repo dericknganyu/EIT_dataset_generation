@@ -215,7 +215,7 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
 
         save(sprintf('%s/%s/dataset_domain',PATH, name), 'x1', 'x2', 'radius', 'theta', 'inputConductivity'); %, 'outputVoltage');
         save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
-        save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
+        %save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
         save(sprintf('%s/%s/inclusions',PATH, name), 'HH', 'KK', 'AA', 'BB', 'ALPHA', 'COND', 'KX', 'KY'); %initially forgot to save KX, KY in the dataset saved in google drive
 
         %sprintf('data/%s/dataset_domain',name)
