@@ -4,6 +4,7 @@ from scipy.io import loadmat, savemat
 from datetime import datetime
 import matplotlib.pyplot as plt
 import random
+import matplotlib
 
 def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False): 
     
@@ -37,7 +38,8 @@ def plot_2d(x, y, z, path, w = 10, nsamp = 100, random= False, circle = False):
         if circle:
             plot_circle()
         colorbar = 'jet'
-        plt.scatter(x, y, c = z[samp], cmap=colorbar, marker='.') # !!mistake you are plotting first 400 since z[i]. Use z[samp] for random samples
+        plt.scatter(x, y, c = z[samp], cmap=colorbar, marker='.')#, norm=matplotlib.colors.LogNorm()) # !!mistake you are plotting first 400 since z[i]. Use z[samp] for random samples
+        #plt.clim(0.2,2)
         plt.axis('square')
         plt.axis('off')
         plt.title(str(samp))

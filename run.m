@@ -225,7 +225,7 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
         difference = angl_circum(2:end) - angl_circum(1:end-1);
         uniq = unique(difference)
         %}
-        clearvars;                                                                 
+        %clearvars;                                                                 
 
 
     end
