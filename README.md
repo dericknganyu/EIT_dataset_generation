@@ -7,7 +7,7 @@
 ## Runnung code
 To generate and save ```batchSize``` samples (with ```Nmax-Nmin+1``` currents), ```numRuns``` times, 
 so that each sample has not more than ```max_numInc``` inclusions, with or without textures, 
-depending on the values of ```textures``` (either ```true``` or ```false```),  navigate to the directory containing the files
+depending on the values of ```textures``` (either ```true```,```false```. or ```constant```),  navigate to the directory containing the files
 
 ➡️ In terminal, run the command
 ```bash
