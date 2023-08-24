@@ -24,6 +24,14 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
     if ischar(batchSize ); batchSize  = str2double(batchSize ); end
     if ischar(Nmax      ); Nmax       = str2double(Nmax      ); end   
     if ischar(Nmin      ); Nmin       = str2double(Nmin      ); end
+
+    if strcmpi(texture, 'true') || strcmpi(texture, 'false') 
+        texture = strcmpi(texture, 'true');
+    end
+    if ~islogical(texture)
+        numRuns = 1; max_numInc = 1; batchSize = 1;
+    end
+
     for iii=1:numRuns
         %texture = true;
         %max_numInc = 3;
@@ -185,10 +193,12 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
             end
         
         end
-        if texture
+        if texture==true
             PATH = '/pvfs2/Derick/EIT/Mine/data_texture'; %'/localdata/Derick/EIT/Mine/data';
-        else
+        elseif texture==false
             PATH = '/pvfs2/Derick/EIT/Mine/data'; %'/localdata/Derick/EIT/Mine/data';
+        else
+            PATH = '/pvfs2/Derick/EIT/Mine/data_constant'; %'/localdata/Derick/EIT/Mine/data';
         end
         
         if ~exist(sprintf('%s/%s',PATH, name), 'dir')

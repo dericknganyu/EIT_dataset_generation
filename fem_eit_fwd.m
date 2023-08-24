@@ -66,30 +66,31 @@ function condOut=ccoeffunctionX(location, ~, numInc, backCond, cond, h, k, a, b,
     condOut = ones(size(location.x))*backCond;
     x1 = location.x;
     x2 = location.y;
-    if texture == true
-        for i = 1:numInc             
-            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
-            X1 = x1(X<=1);
-            X2 = x2(X<=1);
-            kx = 20;
-            ky = 30;
-            centre = [h(i), k(i)];
-            res = 0.5*(1 + add_texture(X2, X1, kx, ky, alpha(i), centre)); %scaling so that [0, 1]
-            
-            res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
-                                                         %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
-            
-            condOut(X<=1)=res;% cond(i);
-        end
-    elseif texture == false
-        for i = 1:numInc             
-            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+    if islogical(texture)
+        if texture
+            for i = 1:numInc             
+                X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+                X1 = x1(X<=1);
+                X2 = x2(X<=1);
+                kx = 20;
+                ky = 30;
+                centre = [h(i), k(i)];
+                res = 0.5*(1 + add_texture(X2, X1, kx, ky, alpha(i), centre)); %scaling so that [0, 1]
+                
+                res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
+                                                            %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
+                
+                condOut(X<=1)=res;% cond(i);
+            end
+        else
+            for i = 1:numInc             
+                X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
 
-            condOut(X<=1)=cond(i);
-        end
+                condOut(X<=1)=cond(i);
+            end
+        end   
     else
-        %Do nothing and we have the case of constant conductivity in all
-        %domain
-    end       
+        % Do nothing and we have the case of constant conductivity in all domain
+    end  
         
 end

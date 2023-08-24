@@ -16,37 +16,40 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
     
     [h, k, a, b, alpha] = sampleInclusions(numInc);
     
-    if texture == true
-        for i = 1:numInc             
-            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
-            X1 = x1(X<=1);  X2 = x2(X<=1);
-            kx(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1); 
-            ky(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1);
-            centre = [h(i), k(i)];
-            res = 0.5*(1 + add_texture(X2, X1, kx(i), ky(i), alpha(i), centre)); %scaling so that [0, 1]
-            
-            cond_opt  = [0, 1]; 
-            cond_idx  = randi([1, 2], 1); %chooseing between 0 and 1
-            cond(i) =  cond_opt(cond_idx);
-            
-            res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
-                                                         %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
-            
-            condOut(X<=1)=res;% cond(i);
-        end
-    elseif texture == false
-        for i = 1:numInc             
-            cond_opt  = [rand*0.6+0.2, rand*0.8 + 1.2];  %sigma in [0.2,0.8] or [1.2, 2]
-            cond_idx  = randi([1, 2], 1);
-            cond(i) =  cond_opt(cond_idx);
-            X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+    if islogical(texture)
+        if texture
+            for i = 1:numInc             
+                X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
+                X1 = x1(X<=1);  X2 = x2(X<=1);
+                kx(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1); 
+                ky(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1);
+                centre = [h(i), k(i)];
+                res = 0.5*(1 + add_texture(X2, X1, kx(i), ky(i), alpha(i), centre)); %scaling so that [0, 1]
+                
+                cond_opt  = [0, 1]; 
+                cond_idx  = randi([1, 2], 1); %chooseing between 0 and 1
+                cond(i) =  cond_opt(cond_idx);
+                
+                res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
+                                                            %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
+                
+                condOut(X<=1)=res;% cond(i);
+            end
+        else
+            for i = 1:numInc             
+                cond_opt  = [rand*0.6+0.2, rand*0.8 + 1.2];  %sigma in [0.2,0.8] or [1.2, 2]
+                cond_idx  = randi([1, 2], 1);
+                cond(i) =  cond_opt(cond_idx);
+                X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
 
-            condOut(X<=1)=cond(i);
-        end
+                condOut(X<=1)=cond(i);
+            end
+        end       
     else
-        %Do nothing and we have the case of constant conductivity in all
-        %domain
-    end      
+        % Do nothing and we have the case of constant conductivity in all domain        
+        fprintf('\nTexture was neither true or false')
+        fprintf('\ndefaulting to case of constant conductivity of 1\n\n')
+    end 
 end
 %%
 function [z] = add_texture(x, y, kx, ky, angle, centre)
