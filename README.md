@@ -34,6 +34,8 @@ Sub-directories
 
 ✦ dataset_textures      : The datasets with inclusions of variable conductivity in folders.
 
+✦ dataset_constant      : The datasets with constant conductivity in folder.
+
 ✦ python_helper_scripts : more useful python scripts and jupyter (ipython) notebooks
 
 ✦ matlab_helper_scripts : more useful matlab scripts
