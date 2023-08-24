@@ -16,7 +16,7 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
     
     [h, k, a, b, alpha] = sampleInclusions(numInc);
     
-    if texture
+    if texture == true
         for i = 1:numInc             
             X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
             X1 = x1(X<=1);  X2 = x2(X<=1);
@@ -34,7 +34,7 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
             
             condOut(X<=1)=res;% cond(i);
         end
-    else
+    elseif texture == false
         for i = 1:numInc             
             cond_opt  = [rand*0.6+0.2, rand*0.8 + 1.2];  %sigma in [0.2,0.8] or [1.2, 2]
             cond_idx  = randi([1, 2], 1);
@@ -43,7 +43,10 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
 
             condOut(X<=1)=cond(i);
         end
-    end       
+    else
+        %Do nothing and we have the case of constant conductivity in all
+        %domain
+    end      
 end
 %%
 function [z] = add_texture(x, y, kx, ky, angle, centre)

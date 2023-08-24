@@ -1,4 +1,3 @@
-
 function [u, warnmsg]=fem_eit_fwd(numInc, backCond, cond, h, k, a, b, alpha, N, mypde, texture)%, idx_circum, theta, mesh)
     %backCond, posNum, pos, xya, hex, hey, rad = phantom_infos;
     ccoefX = @(location, state)ccoeffunctionX(location, state, numInc, backCond, cond, h, k, a, b, alpha, texture);
@@ -67,7 +66,7 @@ function condOut=ccoeffunctionX(location, ~, numInc, backCond, cond, h, k, a, b,
     condOut = ones(size(location.x))*backCond;
     x1 = location.x;
     x2 = location.y;
-    if texture
+    if texture == true
         for i = 1:numInc             
             X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
             X1 = x1(X<=1);
@@ -82,12 +81,15 @@ function condOut=ccoeffunctionX(location, ~, numInc, backCond, cond, h, k, a, b,
             
             condOut(X<=1)=res;% cond(i);
         end
-    else
+    elseif texture == false
         for i = 1:numInc             
             X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
 
             condOut(X<=1)=cond(i);
         end
+    else
+        %Do nothing and we have the case of constant conductivity in all
+        %domain
     end       
         
 end
