@@ -18,6 +18,11 @@ matlab -nodisplay -r "run numRuns texture max_numInc batchSize Nmax Nmin"
 ```bash
 run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
 ```
+Example: To generate the case of constant conductivity run one of the below two commands depending if in terminal or matlab command window
+```bash
+matlab -nodisplay -r "run 1 constant"
+run(1, 'constant')
+```
 
 ## FIles
 In the parent directory: 
