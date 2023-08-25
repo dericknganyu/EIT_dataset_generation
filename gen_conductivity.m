@@ -31,7 +31,7 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
                 cond(i) =  cond_opt(cond_idx);
                 
                 res = 0.6*res + 0.2 + cond(i)*(0.2*res + 1); %if cond(i) was 0 it reduces to 0.6*res + 0.2 in [0.2, 0.8]
-                                                            %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [0.8, 2.0]  
+                                                            %if cond(i) was 1 it reduces to 0.8*res + 1.2 in [1.2, 2.0]  
                 
                 condOut(X<=1)=res;% cond(i);
             end
@@ -57,7 +57,7 @@ function [z] = add_texture(x, y, kx, ky, angle, centre)
     x_rot = centre(1) + x*cos(angle) - y*sin(angle);
     y_rot = centre(2) + x*sin(angle) + y*cos(angle);
 
-    z = 0.5*(sin(kx*x_rot) + sin(ky*y_rot)); %0.5*(2 + sin(kx*x_rot) + sin(ky*y_rot)); %[-1, 1] #Delete that 2!!
+    z = 0.5*(sin(kx*x_rot) + sin(ky*y_rot)); %0.5*(2 + sin(kx*x_rot) + sin(ky*y_rot)); %[-1, 1] 
     
 end
 %%
