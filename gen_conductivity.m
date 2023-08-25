@@ -21,8 +21,8 @@ function [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_cond
             for i = 1:numInc             
                 X = cart_ellipse(x1, x2, h(i), k(i), a(i), b(i), alpha(i));
                 X1 = x1(X<=1);  X2 = x2(X<=1);
-                kx(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1); 
-                ky(i) = unifrnd(1, 2, 1, 1); %unifrnd(5, 15, 1, 1);
+                kx(i) = unifrnd(5, 15, 1, 1);%unifrnd(1, 2, 1, 1); % 
+                ky(i) = unifrnd(5, 15, 1, 1);%unifrnd(1, 2, 1, 1); %
                 centre = [h(i), k(i)];
                 res = 0.5*(1 + add_texture(X2, X1, kx(i), ky(i), alpha(i), centre)); %scaling so that [0, 1]
                 
@@ -57,7 +57,7 @@ function [z] = add_texture(x, y, kx, ky, angle, centre)
     x_rot = centre(1) + x*cos(angle) - y*sin(angle);
     y_rot = centre(2) + x*sin(angle) + y*cos(angle);
 
-    z = 0.5*(2 + sin(kx*x_rot) + sin(ky*y_rot)); %[-1, 1]
+    z = 0.5*(sin(kx*x_rot) + sin(ky*y_rot)); %0.5*(2 + sin(kx*x_rot) + sin(ky*y_rot)); %[-1, 1] #Delete that 2!!
     
 end
 %%
