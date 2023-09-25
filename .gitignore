@@ -8,5 +8,7 @@ gdrive_scripts
 .ipynb_checkpoints
 testing.m
 test.m
-ijnme_eit/
 .vscode/
+ijnme_eit/data/
+ijnme_eit/plots/
+ijnme_eit/recon/
