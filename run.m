@@ -95,6 +95,9 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
         %for batchRun=1:batchSize
 
         [numInc, backCond, cond, condOut, h, k, a, b, alpha, kx, ky] = gen_conductivity(mesh, max_numInc, texture);
+        % warning('off','all')   
+        % fprintf('\nnumber of inclusions = %d,',numInc) 
+        % disp(cond)
 
             % figure(2),clf
             % pdeplot(mesh,XYData=condOut)%, mesh='on')
@@ -174,24 +177,30 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
                 
                 
             end
-            
-            toc
             %%
-            inputConductivity(batchRun, :) = condOut;    
-            
-            HH(batchRun, 1:numInc)    = h;
-            KK(batchRun, 1:numInc)    = k;
-            AA(batchRun, 1:numInc)    = a;
-            BB(batchRun, 1:numInc)    = b;
-            ALPHA(batchRun, 1:numInc) = alpha;
-            COND(batchRun, 1:numInc)  = cond;
-            KX(batchRun, 1:numInc)    = kx;
-            KY(batchRun, 1:numInc)    = ky;
-            
             if isempty(warnmsg)
+                inputConductivity(batchRun, :) = condOut;    
+                HH(batchRun, 1:numInc)    = h;
+                KK(batchRun, 1:numInc)    = k;
+                AA(batchRun, 1:numInc)    = a;
+                BB(batchRun, 1:numInc)    = b;
+                ALPHA(batchRun, 1:numInc) = alpha;
+                COND(batchRun, 1:numInc)  = cond;
+                KX(batchRun, 1:numInc)    = kx;
+                KY(batchRun, 1:numInc)    = ky;
+                % fprintf('\nnumber of inclusions = %d,',numInc) 
+                % disp(cond)
+                % fprintf('\n saved value: ') 
+                % disp(COND(batchRun, :))
+                % fprintf('\n unique value: ') 
+                % disp(unique(condOut))
+
+                fprintf('\n') 
+                toc
+
                 batchRun = batchRun+1;
             end
-        
+            
         end
         if texture==true
             PATH = '/pvfs2/Derick/EIT/Mine/data_texture'; %'/localdata/Derick/EIT/Mine/data';
@@ -227,6 +236,9 @@ function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
         save(sprintf('%s/%s/dataset_bound',PATH, name), 'angl_circum', 'outputBoundcurrent', 'outputBoundvoltage');
         %save(sprintf('%s/%s/mesh'         ,PATH, name), 'mesh')
         save(sprintf('%s/%s/inclusions',PATH, name), 'HH', 'KK', 'AA', 'BB', 'ALPHA', 'COND', 'KX', 'KY'); %initially forgot to save KX, KY in the dataset saved in google drive
+        if texture==true
+            save(sprintf('%s/%s/textures',PATH, name), 'KX', 'KY');
+        end
 
         %sprintf('data/%s/dataset_domain',name)
 
