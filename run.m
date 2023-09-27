@@ -11,6 +11,8 @@
 % textures, depending on the values of textures.
 
 function [] = run(numRuns, texture, max_numInc, batchSize, Nmax, Nmin)
+    seed = 2;
+    rng(seed)
     % Check if the input arguments are provided, and if not, set default values
     if nargin < 1; numRuns    = 100 ; end
     if nargin < 2; texture    = true; end

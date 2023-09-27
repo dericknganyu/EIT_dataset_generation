@@ -17,11 +17,12 @@ end
 inclusions = load(sprintf('%s/%s/inclusions',PATH_read,name));
 
 %samp = 6;
-n_current = 16;
+n_current = 32;
+Neig = 32;
 hval = 0.03;
 max_samp = 100;
 
-%size(aa)
+
 %[batchSize, Nmax, n_nodes] = size(inputConductivity);
 
 mypde = createpde();
@@ -67,6 +68,10 @@ y = fem.gcoord(:,2);
 
 sig0 = exp(x-x);
 
+%Neig = n_current;
+flux = boundflux(fem,'sin',Neig);
+wt   = ones(Neig,1);
+%size(aa)
 
 PATH_save = '/pvfs2/Derick/EIT/Mine/sparsity';
 plot_dir  = sprintf('%s/current_%d/hval_%f-nodes_%d/plots/',PATH_save,n_current,hval,length(p(1,:)));
@@ -135,9 +140,6 @@ for samp = 1:max_samp
     %pause(1) 
 
     %------------------------ input current ------------------------%
-    Neig = n_current;
-    flux = boundflux(fem,'sin',Neig);
-    wt   = ones(Neig,1);
 
     % simulated data
         
