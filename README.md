@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Matlab R2022a](https://img.shields.io/badge/Matlab-R2022a-orange.svg)](https://www.python.org/downloads/release/python-3100/)
 [![Python 3.85](https://img.shields.io/badge/python-3.85-blue.svg)](https://www.python.org/downloads/release/python-385/)
-[![arXiv](https://img.shields.io/badge/arXiv-2310.18636-b31b1b.svg)]([TBD](https://arxiv.org/pdf/2310.18636.pdf))
+[![arXiv](https://img.shields.io/badge/arXiv-2310.18636-b31b1b.svg)](https://arxiv.org/pdf/2310.18636.pdf)
 
 ## Runnung code
 To generate and save ```batchSize``` samples (with ```Nmax-Nmin+1``` currents), ```numRuns``` times, 
